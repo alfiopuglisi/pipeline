@@ -42,7 +42,7 @@ range(10) >> p.filter(lambda i : i%2) >> p.map(lambda i : i*i) >> p.list
 # If you already have a function object (or want to define one with lambda),
 # pass it as a parameter to p():
 
-range(10) >> p(lambda x: x*2)
+'foo' >> p(lambda x: x.upper())
 'foo' >> p('The word was {}'.format)
 
 # if imported symbols are used, they must be passed
