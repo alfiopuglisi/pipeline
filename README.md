@@ -5,7 +5,7 @@ Module for pipelining composition.
 Tired of
 
 ```python
-func1(func2(func3(value)))
+func3(func2(func1(value)))
 ```
 which must be read right-to-left? How about:
 
