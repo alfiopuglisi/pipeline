@@ -10,7 +10,7 @@ func3(func2(func1(value)))
 which must be read right-to-left? How about:
 
 ```python
-value >> func1 >> func2 >> func3 ...
+value >> func1 >> func2 >> func3
 ```
 
 Pipelines are expressions whose resulting value can be assigned:
