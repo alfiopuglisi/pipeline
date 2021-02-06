@@ -2,6 +2,13 @@
 
 Module for pipelining composition.
 
+Tired of
+
+```python
+func1(func2(func3(value)))
+```
+which must be read right-to-left? How about:
+
 ```python
 value >> func1 >> func2 >> func3 ...
 ```
@@ -9,7 +16,7 @@ value >> func1 >> func2 >> func3 ...
 Pipelines are expressions whose resulting value can be assigned:
 
 ```python
-result = value >> func1 >> func2
+result = value >> func1 >> func2 >> func3
 ```
 
 Rules:
@@ -35,7 +42,7 @@ range(10) >> p.filter(lambda i : i%2) >> p.map(lambda i : i*i) >> p.list
 # If you already have a function object (or want to define one with lambda),
 # pass it as a parameter to p():
 
-'foo' >> p(lambda x: x.upper())
+range(10) >> p(lambda x: x*2)
 'foo' >> p('The word was {}'.format)
 
 # if imported symbols are used, they must be passed
