@@ -22,8 +22,7 @@ result = value >> func1 >> func2 >> func3
 Rules:
  * First value can be any python value
  * Functions must be chained with the '>>' operator.
- * Functions can be any callable already defined in the global or local namespace, and are specified
-   as attributes of a Pipeline object.
+ * Functions are called as attributes of a Pipeline object. All built-in functions are available. User-defined or imported functions must be passed to the Pipeline object constructor as a dictionary, typically using locals() or globals().
  * All functions must accept one argument, that will be set using the pipelined value.
     Any additional arguments must be specified in the pipeline and the value will be added
     as the last argument.
