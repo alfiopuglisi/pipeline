@@ -52,3 +52,4 @@ p = Pipeline(globals())
 url = 'http://python.org'
 urlopen(url).read() >> p.findall(b'href="') >> p.len >> p('{} hrefs'.format)
  ```
+With special thanks to https://mtomassoli.wordpress.com/2012/03/29/pipelining-in-python/ who inspired this project.
