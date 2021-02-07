@@ -15,6 +15,11 @@ Rules:
     one argument, that will be set using the pipelined value.
     Any additional arguments must be specified in the pipeline and the value will be added
     as the last argument.
+  * Generators are allowed. Using a generator will turn the value being pipelined
+    into a generator object, meaning that subsequent pipeline steps must be able
+    to consume the values (for example with p.list). Multiple generators will be
+    automatically chained, and if the last step is a generator, the whole expression
+    becomes a single generator ready for action!
 
 Examples:
 
