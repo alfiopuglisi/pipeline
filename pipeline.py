@@ -54,24 +54,27 @@ Generator support using the special "p.value" keyword:
 
     range(10) >> p(x*2 for x in p.value if x%2==0)  >> p(x*3 for x in p.value)
 
-    At the moment generators are expanded to lists at each step, that is, processing
-    is not done in an assembly line but in discrete steps.
+The result will be a generator, that is, nothing is executed until
+the final generator will be asked to produce the values!
 
 
 '''
 
+import hack
 import types
 
 
 class Pipeline():
+
     def __init__(self, globals_=None):
         self._globals = globals_
-    def __getattr__(self, name):
 
+    def __getattr__(self, name):
         if self._globals is None:
             return _Dispatch(eval(name), self)
         else:
             return _Dispatch(eval(name, self._globals), self)
+
     def __call__(self, f):
         return _Dispatch(f, self)
 
@@ -86,13 +89,9 @@ class _Dispatch():
     def __rrshift__(self, incoming_value):
         if type(self.f) == types.GeneratorType:
             # Generator support.
-            # "return list(self.f)" here executes the whole generator
-            # before proceeding to the next one. If we just return self.f,
-            # we get a "ValueError: generator already executing" exception.
-            # Also, pipelining generators with lambdas and other functions
-            # become difficult
-            self.p.value.bind(incoming_value)
-            return list(self.f)
+            # Replace the sequence in the generator object with our one
+            hack.replace_generator_sequence(self.f, incoming_value)
+            return self.f
         else:
             return self.f(*self.args, incoming_value, **self.kwargs)
 
@@ -100,19 +99,9 @@ class _Dispatch():
         return _Dispatch(self.f, self.p, *args, **kwargs)
 
 
-class _Iterator():
-    def bind(self, sequence=[]):
-        self.sequence = iter(sequence)
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        return next(self.sequence)
-
 
 p = Pipeline()
 
-p.value = _Iterator()
+p.value = '' # Dummy iterable
 
 # __oOo__
