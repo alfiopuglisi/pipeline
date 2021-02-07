@@ -58,5 +58,13 @@ from re import findall
 p = Pipeline(globals())
 url = 'http://python.org'
 urlopen(url).read() >> p.findall(b'href="') >> p.len >> p('{} hrefs'.format)
- ```
+
+# Generator support using the special "p.value" keyword:
+
+range(10) >> p(x*2 for x in p.value if x%2==0)  >> p(x*3 for x in p.value)
+
+# The result will be a generator, that is, nothing is executed until
+# the final generator will be asked to produce the values!
+
+```
 With special thanks to https://mtomassoli.wordpress.com/2012/03/29/pipelining-in-python/ who inspired this project.
