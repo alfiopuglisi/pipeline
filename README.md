@@ -28,6 +28,8 @@ Rules:
     as the last argument.
  * Generators are allowed. Using a generator will turn the value being pipelined in a generator object, meaning that subsequent pipeline steps must be able to consume the values (for example with p.list). Multiple generators will be automatically chained, and if the last step is a generator, the whole expression becomes a single generator ready for action!
 
+Tested with CPython 3.7.3
+
 Examples:
 ```python
 from pipeline import p
