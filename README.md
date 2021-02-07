@@ -22,10 +22,11 @@ result = value >> func1 >> func2 >> func3
 Rules:
  * First value can be any python value
  * Functions must be chained with the '>>' operator.
- * Functions are called as attributes of a Pipeline object. All built-in functions are available. User-defined or imported functions must be passed to the Pipeline object constructor as a dictionary, typically using locals() or globals().
+ * Functions are called as attributes of a Pipeline object (see the examples). All built-in functions are available. User-defined or imported functions must be passed to the Pipeline object constructor as a dictionary, typically using locals() or globals().
  * All functions must accept one argument, that will be set using the pipelined value.
     Any additional arguments must be specified in the pipeline and the value will be added
     as the last argument.
+ * Generators are allowed. Using a generator will turn the value being pipelined in a generator object, meaning that subsequent pipeline steps must be able to consume the values (for example with p.list). Multiple generators will be automatically chained, and if the last step is a generator, the whole expression becomes a single generator ready for action!
 
 Examples:
 ```python
