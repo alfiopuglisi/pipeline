@@ -48,7 +48,7 @@ range(10) >> p.filter(lambda i : i%2) >> p.map(lambda i : i*i) >> p.list
 # if imported symbols are used, they must be passed
 # to the Pipeline constructor. This example counts
 # the links in the python.org page, but since 'findall'
-#'is imported, we must build a Pipeline object using
+# is imported, we must build a Pipeline object using
 # the globals() array:
 
 from pipeline import Pipeline
