@@ -71,32 +71,29 @@ class Pipeline():
 
     def __getattr__(self, name):
         if self._globals is None:
-            return _Dispatch(eval(name), self)
+            return _Dispatch(eval(name))
         else:
-            return _Dispatch(eval(name, self._globals), self)
+            return _Dispatch(eval(name, self._globals))
 
     def __call__(self, f):
-        return _Dispatch(f, self)
+        return _Dispatch(f)
 
 
 class _Dispatch():
-    def __init__(self, f, p, *args, **kwargs):
+    def __init__(self, f, *args, **kwargs):
         self.f = f
-        self.p = p
         self.args = args
         self.kwargs = kwargs
 
     def __rrshift__(self, incoming_value):
         if type(self.f) == types.GeneratorType:
-            # Generator support.
-            # Replace the sequence in the generator object with our one
             hack.replace_generator_sequence(self.f, incoming_value)
             return self.f
         else:
             return self.f(*self.args, incoming_value, **self.kwargs)
 
     def __call__(self, *args, **kwargs):
-        return _Dispatch(self.f, self.p, *args, **kwargs)
+        return _Dispatch(self.f, *args, **kwargs)
 
 
 
