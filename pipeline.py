@@ -75,10 +75,7 @@ class Pipeline():
         self._globals = globals_
 
     def __getattr__(self, name):
-        if self._globals is None:
-            return _Dispatch(eval(name))
-        else:
-            return _Dispatch(eval(name, self._globals))
+        return _Dispatch(eval(name, self._globals))
 
     def __call__(self, f):
         return _Dispatch(f)
@@ -99,7 +96,6 @@ class _Dispatch():
 
     def __call__(self, *args, **kwargs):
         return _Dispatch(self.f, *args, **kwargs)
-
 
 
 p = Pipeline()
